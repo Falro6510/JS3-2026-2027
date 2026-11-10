@@ -5,6 +5,7 @@ const load = document.getElementById('load')
 const many_done = document.getElementById('many_done')
 const many_exist = document.getElementById('many_exist')
 const create_task = document.getElementById('create_task')
+let task_list = []
 let localdone = 0
 // dodělat načtení
 let done = 0
@@ -22,8 +23,9 @@ localStorage.setItem('tasks' , tasks)
 }
 function funkce(cnt) {
 console.log(task_list)
-task_list.forEach( (foreach_temp) => {
+let foreach_temp = document.querySelector('#task' + cnt)
   let done_each = foreach_temp.querySelector('#done')
+  let trash_each = foreach_temp.querySelector('#trash')
   console.log(foreach_temp)
   done_each.addEventListener('click' , () => {
     let text_each = foreach_temp.querySelector('#name')
@@ -31,12 +33,12 @@ task_list.forEach( (foreach_temp) => {
     console.log(text_each)
     text_each.style.color = 'green'
     localStorage.setItem(cnt + 'done' , 1)
-
-
-
-
-
   })
+  trash_each.addEventListener('click', () => {
+    foreach_temp.style.display = 'none'
+    localStorage.setItem(cnt, null)
+    localStorage.setItem(cnt + 'done', null)
+
 
 
 })
@@ -49,8 +51,8 @@ load.addEventListener('click' , () => {
   tasks = parseInt(localStorage.getItem('tasks'))
   done = parseInt(localStorage.getItem('done'))
   count = parseInt(localStorage.getItem('count'))
-  i = 1 
-    while (i < count+1) {
+  i = 1
+  while (i < count+1) {
     list.innerText = ''
     let clone = sample.cloneNode(true)
     clone.id = 'task' + i
@@ -68,7 +70,8 @@ load.addEventListener('click' , () => {
 
 
 })
-create_task.addEventListener('click' , () => {
+create_task.addEventListener('click', () => {
+  let i = 1
   let text = prompt('Jméno úkolu')
   clone = sample.cloneNode(true)
   clone.id = 'task' + count
@@ -83,5 +86,5 @@ create_task.addEventListener('click' , () => {
   funkce(count)
   count += 1
 
-})
 
+})
